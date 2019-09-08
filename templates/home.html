@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Home{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+  {% if card_set_list %}
+    <ul>
+      {% for card_set in card_set_list %}
+      <li><a href="{% url 'cardset' card_set.pk %}">{{card_set.name}}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No quizes still...</p>
+  {% endif %}
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}

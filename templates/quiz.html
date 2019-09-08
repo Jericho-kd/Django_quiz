@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{card_set.name}}{% endblock %}
+{% block content %}
+
+{{card_set.name}}
+
+<ul>
+{% for card in card_set.card.all %}
+  <li>{{card.text}}</li>
+  <ol>
+  {% for answer in card.answer_set.all %}
+    <li>{{answer}}</li>
+  {% endfor %}
+  </ol>
+{% endfor %}
+</ul>
+
+<form action="{% url 'startQuiz' %}" method='POST'>
+  {% csrf_token %}
+  <input type="hidden" value="{{card_set.pk}}" name="card_id"/>
+  <button type="submit">Начать!</button>
+</form>
+
+{% endblock %}

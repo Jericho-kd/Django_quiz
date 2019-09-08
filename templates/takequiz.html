@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Title{% endblock %}
+{% block content %}
+
+<form action="{% url 'startQuiz' %}" method='POST'>
+  {% csrf_token %}
+  <li>{{card.text}}</li>
+  {% for answer in card.answer_set.all %}
+  <p>{{answer}}<input type="checkbox" name="{{answer.pk}}"></p>
+  {% endfor %}
+  <input type="hidden" value="{{card_id}}" name="card_id"/>
+  <button type="submit">Дальше</button>
+</form>
+
+{% endblock %}
