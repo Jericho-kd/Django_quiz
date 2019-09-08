@@ -3,14 +3,14 @@
 {% block title %}Title{% endblock %}
 {% block content %}
 
+<h1>{{card.text}}</h1>
 <form action="{% url 'startQuiz' %}" method='POST'>
   {% csrf_token %}
-  <li>{{card.text}}</li>
   {% for answer in card.answer_set.all %}
-  <p>{{answer}}<input type="checkbox" name="{{answer.pk}}"></p>
+  <p>{{answer.text}}  <input class="checkbox" type="checkbox" name="{{answer.pk}}"></p>
   {% endfor %}
   <input type="hidden" value="{{card_id}}" name="card_id"/>
-  <button type="submit">Дальше</button>
+  <button type="submit" class=".btn btn-outline-secondary text-light bg-success">Дальше</button>
 </form>
 
 {% endblock %}

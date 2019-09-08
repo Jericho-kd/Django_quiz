@@ -2,24 +2,25 @@
 
 {% block title %}{{card_set.name}}{% endblock %}
 {% block content %}
+<div class="border rounded-circle bg-light">
+<div class="row justify-content-center">
+<h1 class="display-4">{{card_set.name}}</h1>
+</div>
 
-{{card_set.name}}
-
+<div class="row justify-content-center">
 <ul>
 {% for card in card_set.card.all %}
   <li>{{card.text}}</li>
-  <ol>
-  {% for answer in card.answer_set.all %}
-    <li>{{answer}}</li>
-  {% endfor %}
-  </ol>
 {% endfor %}
 </ul>
+</div>
 
+<div class="row justify-content-center">
 <form action="{% url 'startQuiz' %}" method='POST'>
   {% csrf_token %}
   <input type="hidden" value="{{card_set.pk}}" name="card_id"/>
-  <button type="submit">Начать!</button>
+  <button type="submit" class=".btn btn-outline-secondary text-light bg-success">Начать!</button>
 </form>
-
+</div>
+</div>
 {% endblock %}

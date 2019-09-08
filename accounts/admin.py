@@ -9,7 +9,7 @@ from .models import Answer, Card, CardSet
 class AnswerFormSet(BaseInlineFormSet):
     def clean(self):
         super(AnswerFormSet, self).clean()
-        total_correct = 0
+        total_correct= 0
         for form in self.forms:
             data = form.cleaned_data
             is_correct = data.get('is_correct', False)

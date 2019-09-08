@@ -7,7 +7,7 @@ class Answer(models.Model):
     card = models.ForeignKey('Card', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.text}[{self.is_correct}]'
+        return f'{self.text}'#[{self.is_correct}]'
 
 class Card(models.Model):
     text = models.CharField(max_length=100)
