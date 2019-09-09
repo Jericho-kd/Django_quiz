@@ -2,8 +2,11 @@
 
 {% block title %}Title{% endblock %}
 {% block content %}
+<div class="row justify-content-center">
+<h1 class="display-4">{{card.text}}</h1>
+</div>
 
-<h1>{{card.text}}</h1>
+<div class="row justify-content-center">
 <form action="{% url 'startQuiz' %}" method='POST'>
   {% csrf_token %}
   {% for answer in card.answer_set.all %}
@@ -12,5 +15,6 @@
   <input type="hidden" value="{{card_id}}" name="card_id"/>
   <button type="submit" class=".btn btn-outline-secondary text-light bg-success">Дальше</button>
 </form>
+</div>
 
 {% endblock %}
