@@ -14,10 +14,12 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
+
 class CardSetListView(generic.ListView):
     model = CardSet
     context_object_name = 'card_set_list'
     template_name = 'home.html'
+
 
 @method_decorator(login_required, name='dispatch')
 class CardListView(generic.ListView):
@@ -28,6 +30,7 @@ class CardListView(generic.ListView):
     def get_queryset(self, *args, **kwargs):
         return CardSet.objects.get(pk=self.kwargs['pk'])
 
+
 def is_correct_answer(answers, request):
     correct = True
     for answer in answers:
@@ -37,9 +40,11 @@ def is_correct_answer(answers, request):
             break
     return correct
 
+
 def clear_session(session):
     session.pop('question', None)
     session.pop('score', None)
+
 
 @login_required
 @never_cache
