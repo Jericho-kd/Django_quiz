@@ -46,26 +46,30 @@ def clear_session(session):
     session.pop('score', None)
 
 
-@login_required
-@never_cache
-def takequiz(request):
-    if request.method == 'GET':
+decorators = [never_cache, login_required]
+
+
+@method_decorator(decorators, name='dispatch')
+class Quiz(generic.ListView):
+    def get(self, request):
         clear_session(request.session)
         return redirect('/')
-    card_id = request.POST['card_id']
-    question = int(request.session.get('question', 0))
-    score = int(request.session.get('score', 0))
-    cards = CardSet.objects.get(pk=card_id).card.all()
-    total = len(cards)
-    if question != 0 and is_correct_answer(cards[question - 1].answer_set.all(), request):
-        score = score + 1
-    if question == total:
-        clear_session(request.session)
-        return render(request, 'results.html', context={'score':int(100/total*score)})
-    else:
-        request.session['question'] = question + 1
-        request.session['score'] = score
-        return render(request, 'takequiz.html', context={'card':cards[question],
-                                                            'card_id':card_id})
+
+    def post(self, request):
+        card_id = request.POST['card_id']
+        question = int(request.session.get('question', 0))
+        score = int(request.session.get('score', 0))
+        cards = CardSet.objects.get(pk=card_id).card.all()
+        total = len(cards)
+        if question != 0 and is_correct_answer(cards[question - 1].answer_set.all(), request):
+            score = score + 1
+        if question == total:
+            clear_session(request.session)
+            return render(request, 'results.html', context={'score': int(100/total*score)})
+        else:
+            request.session['question'] = question + 1
+            request.session['score'] = score
+            return render(request, 'takequiz.html', context={'card': cards[question],
+                                                                'card_id': card_id})
 # Create your views here.
 
